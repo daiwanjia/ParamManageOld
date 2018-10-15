@@ -33,48 +33,44 @@
 		</div>
 
 		<!-- 表格 -->
-		<div id="dateTable"></div>
+		<div id="dateTable" lay-filter="dateTable"></div>
 		<!-- 需要弹出的修改和添加员工界面 -->
-		<div class="layui-row" id="systemUpdate" style="display:none;">
+		<div class="layui-row" id="updateSystem" style="display:none;">
 		    <div class="layui-col-md10" style="margin-left: 10px;margin-top: 10px;">
-		        <form class="layui- layui-form-pane" >
+		        <form class="layui- layui-form-pane" lay-filter="systemFormFilter">
 		            <div class="layui-form-item">
 		                <label class="layui-form-label" style="width: 130px">系统英文名称：</label>
 		                <div class="layui-input-inline">
-		                    <input type="text" id="systemEnname"  class="layui-input">
+		                    <input type="text" id="systemEnname" name="systemEnname"  class="layui-input">
 		                </div>
 		            </div>
 		            <div class="layui-form-item">
 		                 <label class="layui-form-label" style="width: 130px">系统中文名称：</label>
 		                <div class="layui-input-inline">
-		                	<input type="text" id="systemCnname"  class="layui-input">
+		                	<input type="text" id="systemCnname" name="systemCnname" class="layui-input">
 		                </div>
 		            </div>
 		            <div class="layui-form-item">
 		                <label class="layui-form-label" style="width: 130px">备用字段1：</label>
 		                <div class="layui-input-inline">
-		                    <input type="text" id="absOne"  class="layui-input">
+		                    <input type="text" id="absOne" name="absOne" class="layui-input">
 		                </div>
 		            </div>
 		            <div class="layui-form-item">
 		                <label class="layui-form-label" style="width: 130px">备用字段2：</label>
 		                <div class="layui-input-inline">
-		                    <input type="text" id="absTwo"  class="layui-input">
+		                    <input type="text" id="absTwo" name="absTwo" class="layui-input">
 		                </div>
 		            </div>
 		            <div class="layui-form-item">
 		                <label class="layui-form-label" style="width: 130px">备注：</label>
 		                <div class="layui-input-block" style="margin: auto;">
-		                    <textarea id="remake" class="layui-textarea"></textarea>
+		                    <textarea id="remake" class="layui-textarea" name="remake"></textarea>
 		                </div>
 		            </div>
 		            <div class="layui-form-item">
 		                <div class="layui-input-block">
 		                    <button type="button" id="addSystem" class="layui-btn layui-btn-normal">提交</button>
-		                    <script>
-		                    	$('#addSystem').click(function(){
-		                    		alert("msg");
-		                    	});
 		                    </script>
 		                </div>
 		            </div>
@@ -83,7 +79,13 @@
 		</div>
 		<script type="text/javascript" src="../frame/layui/layui.js"></script>
 		<script type="text/javascript" src="../js/index.js"></script>
+		<script type="text/html" id="barOption">
+			<a class="layui-btn layui-btn-mini layui-btn-normal"  lay-event="edit">编辑</a>
+			<a class="layui-btn layui-btn-mini layui-btn-danger"  lay-event="del">删除</a>
+		</script>
 		<script type="text/javascript">
+			
+			var popForm;
 			// layui方法
 			layui.use(['table', 'form', 'layer', 'vip_table'], function() {
 
@@ -93,13 +95,11 @@
 					layer = layui.layer,
 					vipTable = layui.vip_table,
 					$ = layui.jquery;
-
+					popForm= layui.form;
 				// 表格渲染
 				var tableIns = table.render({
-					elem: '#dateTable' //指定原始表格元素选择器（推荐id选择器）
-						,
-					height: vipTable.getFullHeight() //容器高度
-						,
+					elem: '#dateTable' ,//指定原始表格元素选择器（推荐id选择器）
+					height: vipTable.getFullHeight() ,//容器高度
 					cols: [
 						[ //标题栏
 							{checkbox: true,sort: true,fixed: true,space: true}, 
@@ -153,7 +153,7 @@
 						title:'新增系统',
 						skin: 'layui-layer-lan', //加上边框
 						area: ['500px', '500px'], //宽高
-						content:$("#systemUpdate").html()
+						content:$("#updateSystem").html()
 					});
 				});
 			
@@ -187,14 +187,58 @@
 //							}
 //						});
 //					});
-			
+				//监听行工具事件
+			  	table.on('tool(dateTable)', function(obj){
+				    var data = obj.data;
+				    console.log(data)
+				    if(obj.event === 'del'){
+					    layer.confirm('真的删除行么', function(index){
+					      	$.ajax({
+					      		type:"post",
+					      		url:"/ParamManage/system/deleteSystem",
+					      		async:true,
+					      		dataType:"json",
+					      		data:{
+					      			"systemEnname":data.systemEnname
+					      		},
+					      		success:function(date){
+					      			layer.close(index);
+					      			layer.msg(date.msg);
+					      			tableIns.reload();
+					      		},
+					      		error:function(date){
+					      			layer.close(index);
+					      			layer.msg(date.msg);
+					      			tableIns.reload();
+					      		}
+					      	});			        
+					    });
+				    } else if(obj.event === 'edit'){
+				      	layer.open({
+				            type:1,
+				            title:"修改系统信息",
+				            skin: 'layui-layer-lan',
+				            area: ['500px', '500px'],
+				            content:$("#updateSystem").html()
+		       			 });
+		       			 setFormValue(data);//动态向表单赋值
+				    }
+	  			});
+	  			
+	  			function setFormValue(data){
+					popForm.val("systemFormFilter", {
+						"systemEnname":systemEnname,
+						"systemCnname":systemCnname,
+						"remake":remake,
+						"absOne":absOne,
+						"absTwo":absTwo
+						});
+			  		popForm.render(null,'systemFormFilter')
+			  	}
 			});
 		</script>
 		<!-- 表格操作按钮集 -->
-		<script type="text/html" id="barOption">
-			<a class="layui-btn layui-btn-mini layui-btn-normal" lay-event="edit">编辑</a>
-			<a class="layui-btn layui-btn-mini layui-btn-danger" lay-event="del">删除</a>
-		</script>
+		
 	</body>
 
 </html>

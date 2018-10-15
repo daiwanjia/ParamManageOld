@@ -52,7 +52,7 @@ public class System {
 	@Override
 	public String toString() {
 		return "{\"systemEnname\":\"" + systemEnname + "\",\"systemCnname\":\"" + systemCnname + "\",\"remake\":\""
-				+ remake + "\",\"absOne\":\"" + absOne + "\",\"absTwo\":\"" + absTwo + "\"}  ";
+				+ remake + "\",\"absOne\":\"" + absOne + "\",\"absTwo\":\"" + absTwo + "\"}";
 	}
       
 }

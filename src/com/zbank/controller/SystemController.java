@@ -87,6 +87,11 @@ public class SystemController {
 		}
 		return jsonObject.toJSONString();
 	}
+	/**
+	 * 删除系统
+	 * @param systemEnname
+	 * @return
+	 */
 	@ResponseBody
 	@RequestMapping(value="/deleteSystem",method=RequestMethod.POST,produces="application/json;charset=UTF-8")
 	public String deleteSystem(@RequestParam("systemEnname") String systemEnname){

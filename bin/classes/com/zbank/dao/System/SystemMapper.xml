@@ -6,7 +6,7 @@
     <result column="system_cnname" jdbcType="VARCHAR" property="systemCnname" />
     <result column="remake" jdbcType="VARCHAR" property="remake" />
     <result column="abs_one" jdbcType="VARCHAR" property="absOne" />
-    <result column="abs_two" jdbcType="VARCHAR" property="absTwo" />
+    <result column="abs_two" jdbcType="VARCHAR"  property="absTwo" />
   </resultMap>
   <sql id="Base_Column_List">
     system_enname, system_cnname, remake, abs_one, abs_two
@@ -103,5 +103,5 @@
     select count(*)
     from system_info
   </select>
-  
+  <!-- like '%${value}%' -->
 </mapper>
