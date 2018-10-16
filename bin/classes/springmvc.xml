@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-	xmlns:p="http://www.springframework.org/schema/p"
-	xmlns:mvc="http://www.springframework.org/schema/mvc" 
-	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:aop="http://www.springframework.org/schema/aop"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans 
 	http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
@@ -15,15 +13,34 @@
 	http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
 	">
 	<!-- 注解支持 -->
-	<mvc:annotation-driven />
-	<!-- 上下文 开启注解扫描-->
+	<mvc:annotation-driven>
+		<!-- <mvc:message-converters register-defaults="true">
+			配置Fastjson支持
+			<bean
+				class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter">
+				<property name="supportedMediaTypes">
+					<list>
+						<value>text/html;charset=UTF-8</value>
+						<value>application/json</value>
+					</list>
+				</property>
+				<property name="features">
+					<list>
+						<value>WriteMapNullValue</value>
+						<value>QuoteFieldNames</value>
+					</list>
+				</property>
+			</bean>
+		</mvc:message-converters> -->
+	</mvc:annotation-driven>
+	<!-- 上下文 开启注解扫描 -->
 	<context:component-scan base-package="com.zbank.controller"></context:component-scan>
 	<!-- 前后缀 -->
-	<bean
+	<!-- <bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix" value="/WEB-INF/jsp/"></property>
 		<property name="suffix" value=".jsp"></property>
-	</bean>
+	</bean> -->
 	<!-- spring mvc 能够访问静态内容 -->
 	<mvc:resources location="/js/" mapping="/js/**" />
 	<mvc:resources location="/css/" mapping="/css/**" />
@@ -33,26 +50,16 @@
 	<mvc:resources location="/demo/" mapping="/demo/**" />
 	<mvc:resources location="/fonts/" mapping="/fonts/**" />
 	<mvc:resources location="/json/" mapping="/json/**" />
-	
-	
-	<!-- <bean id="myAop" class="com.zbank.controller.MyAop"></bean>
-	<bean id="systemController" class="com.zbank.controller.SystemController"></bean> -->
+
+
+	<!-- <bean id="myAop" class="com.zbank.controller.MyAop"></bean> <bean id="systemController" 
+		class="com.zbank.controller.SystemController"></bean> -->
 	<!-- 开启aop注解 -->
 	<aop:aspectj-autoproxy></aop:aspectj-autoproxy>
 	<!-- 配置aop操作 -->
-	<!-- <aop:config>
-		配置切入点
-		<aop:pointcut expression="execution(* com.zbank.controller.SystemController.*(..))" id="pointcut1"/>
-		配置切面
-			把增强用到方法上面 
-		
-		<aop:aspect ref="myAop">
-		配置增强类型 
-			method：增强类里面使用哪个方法作为前置
-		
-			<aop:before method="before" pointcut-ref="pointcut1"/>
-			<aop:after-returning method="after" pointcut-ref="pointcut1"/>
-			<aop:around method="around" pointcut-ref="pointcut1"/>
-		</aop:aspect>
-	</aop:config> -->
+	<!-- <aop:config> 配置切入点 <aop:pointcut expression="execution(* com.zbank.controller.SystemController.*(..))" 
+		id="pointcut1"/> 配置切面 把增强用到方法上面 <aop:aspect ref="myAop"> 配置增强类型 method：增强类里面使用哪个方法作为前置 
+		<aop:before method="before" pointcut-ref="pointcut1"/> <aop:after-returning 
+		method="after" pointcut-ref="pointcut1"/> <aop:around method="around" pointcut-ref="pointcut1"/> 
+		</aop:aspect> </aop:config> -->
 </beans>

@@ -12,6 +12,7 @@
 		<link rel="stylesheet" href="../frame/static/css/style.css">
 		<link rel="icon" href="../frame/static/image/code.png">
 		<script src="../js/jquery.min.js"></script>
+		<script src="../js/json2.js"></script>
 	</head>
 
 	<body class="body">
@@ -19,8 +20,8 @@
 		<!-- 工具集 -->
 		<div class="my-btn-box">
 			<span class="fl">
-        <a class="layui-btn layui-btn-danger radius btn-delect" id="btn-delete-all">批量删除</a>
-        <a class="layui-btn btn-add btn-default" id="systemAdd">添加</a>
+        <!--<a class="layui-btn layui-btn-danger radius btn-delect" id="btn-delete-all">批量删除</a>-->
+        <a class="layui-btn btn-add btn-default" id="systemAdd">新增系统</a>
         <a class="layui-btn btn-add btn-default" id="btn-refresh"><i class="layui-icon">&#x1002;</i></a>
     </span>
 			<span class="fr">
@@ -31,13 +32,9 @@
 			<button class="layui-btn mgl-20">查询</button>
 			</span>
 		</div>
-
-		<!-- 表格 -->
-		<div id="dateTable" lay-filter="dateTable"></div>
-		<!-- 需要弹出的修改和添加员工界面 -->
-		<div class="layui-row" id="updateSystem" style="display:none;">
+		<div class="layui-row" id="updateDiv" style="display:none;">
 		    <div class="layui-col-md10" style="margin-left: 10px;margin-top: 10px;">
-		        <form class="layui- layui-form-pane" lay-filter="systemFormFilter">
+		        <form class="layui-form layui-form-pane" lay-filter="systemFormFilter">
 		            <div class="layui-form-item">
 		                <label class="layui-form-label" style="width: 130px">系统英文名称：</label>
 		                <div class="layui-input-inline">
@@ -70,13 +67,58 @@
 		            </div>
 		            <div class="layui-form-item">
 		                <div class="layui-input-block">
-		                    <button type="button" id="addSystem" class="layui-btn layui-btn-normal">提交</button>
-		                    </script>
+		                    <input type="button" class="layui-btn layui-btn-normal" value="提交" onclick="updateform();"/>
+		                    <button type="reset" hidden="hidden" id="resetbutton"/>
 		                </div>
 		            </div>
 		        </form>
 		    </div>
 		</div>
+		<div class="layui-row" id="insertDiv" style="display:none;">
+		    <div class="layui-col-md10" style="margin-left: 10px;margin-top: 10px;">
+		        <form class="layui-form layui-form-pane">
+		            <div class="layui-form-item">
+		                <label class="layui-form-label" style="width: 130px">系统英文名称：</label>
+		                <div class="layui-input-inline">
+		                    <input type="text" id="systemEnname1" name="systemEnname"  class="layui-input">
+		                </div>
+		            </div>
+		            <div class="layui-form-item">
+		                 <label class="layui-form-label" style="width: 130px">系统中文名称：</label>
+		                <div class="layui-input-inline">
+		                	<input type="text" id="systemCnname1" name="systemCnname" class="layui-input">
+		                </div>
+		            </div>
+		            <div class="layui-form-item">
+		                <label class="layui-form-label" style="width: 130px">备用字段1：</label>
+		                <div class="layui-input-inline">
+		                    <input type="text" id="absOne1" name="absOne" class="layui-input">
+		                </div>
+		            </div>
+		            <div class="layui-form-item">
+		                <label class="layui-form-label" style="width: 130px">备用字段2：</label>
+		                <div class="layui-input-inline">
+		                    <input type="text" id="absTwo1" name="absTwo" class="layui-input">
+		                </div>
+		            </div>
+		            <div class="layui-form-item">
+		                <label class="layui-form-label" style="width: 130px">备注：</label>
+		                <div class="layui-input-block" style="margin: auto;">
+		                    <textarea id="remake1" class="layui-textarea" name="remake"></textarea>
+		                </div>
+		            </div>
+		            <div class="layui-form-item">
+		                <div class="layui-input-block">
+		                    <input type="button" class="layui-btn layui-btn-normal" value="提交" onclick="insertSystem();"/>
+		                    <button type="reset" hidden="hidden" id="resetbutton1"/>
+		                </div>
+		            </div>
+		        </form>
+		    </div>
+		</div>
+		<!-- 表格 -->
+		<div id="dateTable" lay-filter="dateTable"></div>
+		<!-- 需要弹出的修改和添加员工界面 -->
 		<script type="text/javascript" src="../frame/layui/layui.js"></script>
 		<script type="text/javascript" src="../js/index.js"></script>
 		<script type="text/html" id="barOption">
@@ -84,20 +126,20 @@
 			<a class="layui-btn layui-btn-mini layui-btn-danger"  lay-event="del">删除</a>
 		</script>
 		<script type="text/javascript">
-			
-			var popForm;
 			// layui方法
+			var tableIns;
+			var layer;
+			var form
 			layui.use(['table', 'form', 'layer', 'vip_table'], function() {
 
 				// 操作对象
-				var form = layui.form,
-					table = layui.table,
-					layer = layui.layer,
+				var table = layui.table,
 					vipTable = layui.vip_table,
 					$ = layui.jquery;
-					popForm= layui.form;
+				layer = layui.layer;
+				form = layui.form;
 				// 表格渲染
-				var tableIns = table.render({
+					tableIns = table.render({
 					elem: '#dateTable' ,//指定原始表格元素选择器（推荐id选择器）
 					height: vipTable.getFullHeight() ,//容器高度
 					cols: [
@@ -115,22 +157,19 @@
 					url: '/ParamManage/system/systemInfo',
 					method: 'get',
 					page: true,
-					limits: [2, 3, 4, 5],
-					limit: 2 , //默认采用10        				
+					limits: [10, 20, 30, 50,100],
+					limit: 10 , //默认采用10        				
 					loading: false,
 					success: function(res, curr, count) {
 						//如果是异步请求数据方式，res即为你接口返回的信息。
 						//如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
-						console.log(res);
+						//console.log(res);
 
 						//得到当前页码
-						console.log(curr);
+						//console.log(curr);
 
 						//得到数据总量
-						console.log(count);
-					},
-					error: function() {
-						alert("失败！");
+						//console.log(count);
 					}
 				});
 
@@ -153,40 +192,10 @@
 						title:'新增系统',
 						skin: 'layui-layer-lan', //加上边框
 						area: ['500px', '500px'], //宽高
-						content:$("#updateSystem").html()
+						content:$("#insertDiv")
 					});
 				});
 			
-//				$('#addSystem').on('click',function(){
-//						alert("dasda");
-//						var systemEnname=$('#systemEnname').val();
-//						var systemCnname=$('#systemCnname').val();
-//						var remake=$('#remake').val();
-//						var absOne=$('#absOne').val();
-//						var absTwo=$('#absTwo').val();
-//						$.ajax({
-//							type: "post",
-//							url: "/ParamManage/user/addSystem",
-//							async: false,
-//							dataType:"json",
-//							scriptCharset: 'utf-8',
-//							data:{
-//								"systemEnname":systemEnname,
-//								"systemCnname":systemCnname,
-//								"remake":remake,
-//								"absOne":absOne,
-//								"absTwo":absTwo
-//							},
-//							success: function(date) {
-//								layer.msg(date.msg);
-//								tableIns.reload();
-//							},
-//							error: function(date) {
-//								layer.msg(date.msg);
-//								tableIns.reload();
-//							}
-//						});
-//					});
 				//监听行工具事件
 			  	table.on('tool(dateTable)', function(obj){
 				    var data = obj.data;
@@ -208,7 +217,7 @@
 					      		},
 					      		error:function(date){
 					      			layer.close(index);
-					      			layer.msg(date.msg);
+					      			layer.alert(date.msg);
 					      			tableIns.reload();
 					      		}
 					      	});			        
@@ -219,24 +228,94 @@
 				            title:"修改系统信息",
 				            skin: 'layui-layer-lan',
 				            area: ['500px', '500px'],
-				            content:$("#updateSystem").html()
+				            content:$("#updateDiv")
 		       			 });
 		       			 setFormValue(data);//动态向表单赋值
 				    }
 	  			});
 	  			
 	  			function setFormValue(data){
-					popForm.val("systemFormFilter", {
+	  				console.log(data.systemCnname);
+	  				var formData={
+	  					systemEnname:data.systemEnname,
+	  					systemCnname:data.systemCnname,
+	  					remake:data.remake,
+	  					absOne:data.absOne,
+	  					absTwo:data.absTwo
+	  				};
+	  				form.val("systemFormFilter",formData);
+					form.render(null,'systemFormFilter');
+			  	}		
+			});
+			
+			function updateform(){
+				var systemEnname=$('#systemEnname').val();
+				var systemCnname=$('#systemCnname').val();
+				var remake=$('#remake').val();
+				var absOne=$('#absOne').val();
+				var absTwo=$('#absTwo').val();
+				var param={
 						"systemEnname":systemEnname,
 						"systemCnname":systemCnname,
 						"remake":remake,
 						"absOne":absOne,
 						"absTwo":absTwo
-						});
-			  		popForm.render(null,'systemFormFilter')
-			  	}
-			});
-		</script>
+					};
+				$.ajax({
+					type: "post",
+					url: "/ParamManage/system/updateSystem",
+					async: true,
+					contentType:"application/json; charset=UTF-8",
+					data:JSON.stringify(param),
+					success: function(date) {					
+						tableIns.reload();
+						layer.closeAll();
+						layer.msg(date.msg);
+						$('#resetbutton').click();
+					},
+					error: function(date) {						
+						tableIns.reload();
+						layer.closeAll();
+						layer.alert(date.msg);
+						$('#resetbutton').click();
+					}
+				});
+			}
+			
+			function insertSystem(){
+				var systemEnname=$('#systemEnname1').val();
+				var systemCnname=$('#systemCnname1').val();
+				var remake=$('#remake1').val();
+				var absOne=$('#absOne1').val();
+				var absTwo=$('#absTwo1').val();
+				var param={
+						"systemEnname":systemEnname,
+						"systemCnname":systemCnname,
+						"remake":remake,
+						"absOne":absOne,
+						"absTwo":absTwo
+					};
+				$.ajax({
+					type: "post",
+					url: "/ParamManage/system/addSystem",
+					async: true,
+					contentType:"application/json; charset=UTF-8",
+					data:JSON.stringify(param),
+					success: function(date) {
+						tableIns.reload();
+						layer.closeAll();
+						layer.msg(date.msg);
+						$('#resetbutton1').click();
+					},
+					error: function(date) {						
+						tableIns.reload();
+						layer.closeAll();
+						layer.msg(date.msg);
+						$('#resetbutton1').click();
+					}
+				});
+			}
+		</script>		
 		<!-- 表格操作按钮集 -->
 		
 	</body>

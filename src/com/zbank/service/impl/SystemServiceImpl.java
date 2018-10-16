@@ -35,7 +35,7 @@ public class SystemServiceImpl implements SystemService{
 
 	@Override
 	public int updateSystem(System system) {
-		int updateFlag=SystemMapper.insert(system);
+		int updateFlag=SystemMapper.updateByPrimaryKey(system);
 		return updateFlag;
 	}
 

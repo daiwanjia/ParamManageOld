@@ -36,7 +36,7 @@ public class SystemController {
 	@ResponseBody
 	@RequestMapping(value="/systemInfo",method={RequestMethod.POST,RequestMethod.GET},produces={"application/json;charset=UTF-8"})
 	public String systemInfo(@RequestParam("limit") int limit,@RequestParam("page") int page){
-		int offset=limit*(page-1);//获取当前页第一位下标
+  		int offset=limit*(page-1);//获取当前页第一位下标
 		List<System> systemList=systemService.systemList(limit,offset);
 		
 		//查询分页数据
