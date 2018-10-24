@@ -17,14 +17,14 @@ public class SystemServiceImpl implements SystemService{
 	private SystemMapper SystemMapper;
 
 	@Override
-	public List<System> systemList(int limit, int offset) {
-		List<System> systemlist=SystemMapper.systemInfoList(limit, offset);
+	public List<System> systemList(int limit, int offset,String systenEnname,String systemCnname) {
+		List<System> systemlist=SystemMapper.systemInfoList(limit, offset,systenEnname,systemCnname);
 		return systemlist;
 	}
 
 	@Override
-	public int systemCout() {
-		int systemCout=SystemMapper.systemCount();
+	public int systemCout(String systemEnname,String systemCnname) {
+		int systemCout=SystemMapper.systemCount(systemEnname,systemCnname);
 		return systemCout;
 	}
 	@Override

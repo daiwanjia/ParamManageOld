@@ -7,16 +7,20 @@ import com.zbank.model.System;
 public interface SystemService {
 	/**
 	 * 分页查询系统信息
-	 * @param limit 
+	 * @param limit
 	 * @param offset
-	 * @return List
+	 * @param systemEnname
+	 * @param systenCnname
+	 * @return systemList
 	 */
-	List<System> systemList(int limit,int offset);
+	List<System> systemList(int limit,int offset,String systemEnname,String systemCnname);
 	/**
-	 * 查询数据总量
-	 * @return int
+	 * 分页查询数据总量
+	 * @param systemEnname
+	 * @param systemCnname
+	 * @return
 	 */
-	int systemCout();
+	int systemCout(String systemEnname,String systemCnname);
 	/**
 	 * 新增系统信息
 	 * @param system

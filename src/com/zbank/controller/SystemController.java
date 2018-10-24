@@ -35,9 +35,10 @@ public class SystemController {
 	 */
 	@ResponseBody
 	@RequestMapping(value="/systemInfo",method={RequestMethod.POST,RequestMethod.GET},produces={"application/json;charset=UTF-8"})
-	public String systemInfo(@RequestParam("limit") int limit,@RequestParam("page") int page){
+	public String systemInfo(@RequestParam("limit") int limit,@RequestParam("page") int page,
+			@RequestParam(defaultValue = "",value="systemEnname") String systemEnname,@RequestParam(defaultValue = "",value="systemCnname") String systemCnname){
   		int offset=limit*(page-1);//获取当前页第一位下标
-		List<System> systemList=systemService.systemList(limit,offset);
+		List<System> systemList=systemService.systemList(limit,offset,systemEnname,systemCnname);
 		
 		//查询分页数据
 		JSONArray dataArray=new JSONArray();
@@ -46,7 +47,7 @@ public class SystemController {
 		}
 		JSONObject jsonObject=new JSONObject();
 		//查询数据总量
-		jsonObject.put("count", systemService.systemCout());
+		jsonObject.put("count", systemService.systemCout(systemEnname,systemCnname));
 		jsonObject.put("data", dataArray);
 		jsonObject.put("code",0);
 		jsonObject.put("msg", "");

@@ -6,6 +6,10 @@
 		<setting name="useGeneratedKeys" value="true" /> <!-- 允许JDBC支持生成的键 -->
 		<!-- 打印sql -->
 		<setting name="logImpl" value="STDOUT_LOGGING" />
+		<!-- 延迟加载 -->
+		<!-- <setting name="lazyLoadingEnabled" value="true"/> -->
+		<!-- 将积极加载改为消极加载即按需加载 -->
+		<!-- <setting name="aggressiveLazyLoading" value="false"/> -->
 	</settings>
 	<typeAliases><!-- 别名 -->
 		<package name="com.zbank.model"/>

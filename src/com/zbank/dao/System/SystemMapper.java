@@ -6,46 +6,55 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.zbank.model.System;
+
 @Mapper
 public interface SystemMapper {
 	/**
 	 * 删除系统
+	 * 
 	 * @param systemEnname
 	 * @return
 	 */
-    int deleteByPrimaryKey(String systemEnname);
-    
-    /**
-     * 新增系统
-     * @param system
-     * @return
-     */
-    int insert(System system);
+	int deleteByPrimaryKey(String systemEnname);
 
-    int insertSelective(System record);
+	/**
+	 * 新增系统
+	 * 
+	 * @param system
+	 * @return
+	 */
+	int insert(System system);
 
-    System selectByPrimaryKey(String systemEnname);
+	int insertSelective(System record);
 
-    int updateByPrimaryKeySelective(System record);
+	System selectByPrimaryKey(String systemEnname);
 
-    /**
-     * 修改系统信息
-     * @param system
-     * @return
-     */
-    int updateByPrimaryKey(System system);
-    
-    /**
-     * 查询所有系统信息
-     * @param limit 每页的数量
-     * @param offset 起始下标
-     * @return systemInfoList
-     */
-    List<System> systemInfoList(@Param("limit")int limit,@Param("offset")int offset);
-    
-    /**
-     * 查询system总量
-     * @return int
-     */
-    int systemCount();
+	int updateByPrimaryKeySelective(System record);
+
+	/**
+	 * 修改系统信息
+	 * 
+	 * @param system
+	 * @return
+	 */
+	int updateByPrimaryKey(System system);
+
+	/**
+	 * 查询系统信息
+	 * 
+	 * @param limit
+	 *            每页的数量
+	 * @param offset
+	 *            起始下标
+	 * @return systemInfoList
+	 */
+	List<System> systemInfoList(@Param("limit") int limit, @Param("offset") int offset,
+			@Param("systemEnname") String systemEnname, @Param("systemCnname") String systemCnname);
+
+	/**
+	 * 查询system总量
+	 * 
+	 * @return int
+	 */
+	int systemCount(@Param("systemEnname") String systemEnname, @Param("systemCnname") String systemCnname);
 }
