@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.zbank.dao.environmentMapper">
-  <resultMap id="BaseResultMap" type="com.zbank.model.environment">
+<mapper namespace="com.zbank.dao.environment.EnvironmentMapper">
+  <resultMap id="BaseResultMap" type="com.zbank.model.Environment">
     <id column="environment_id" jdbcType="VARCHAR" property="environmentId" />
     <result column="environment_name" jdbcType="VARCHAR" property="environmentName" />
     <result column="environment_url" jdbcType="VARCHAR" property="environmentUrl" />
@@ -19,13 +19,13 @@
     delete from environment_info
     where environment_id = #{environmentId,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" parameterType="com.zbank.model.environment">
+  <insert id="insert" parameterType="com.zbank.model.Environment">
     insert into environment_info (environment_id, environment_name, environment_url
       )
     values (#{environmentId,jdbcType=VARCHAR}, #{environmentName,jdbcType=VARCHAR}, #{environmentUrl,jdbcType=VARCHAR}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.zbank.model.environment">
+  <insert id="insertSelective" parameterType="com.zbank.model.Environment">
     insert into environment_info
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="environmentId != null">
@@ -50,7 +50,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.zbank.model.environment">
+  <update id="updateByPrimaryKeySelective" parameterType="com.zbank.model.Environment">
     update environment_info
     <set>
       <if test="environmentName != null">
@@ -62,7 +62,7 @@
     </set>
     where environment_id = #{environmentId,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.zbank.model.environment">
+  <update id="updateByPrimaryKey" parameterType="com.zbank.model.Environment">
     update environment_info
     set environment_name = #{environmentName,jdbcType=VARCHAR},
       environment_url = #{environmentUrl,jdbcType=VARCHAR}

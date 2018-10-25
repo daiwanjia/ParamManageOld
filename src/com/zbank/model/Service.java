@@ -1,6 +1,6 @@
 package com.zbank.model;
 
-public class service {
+public class Service {
     private String serviceId;
 
     private String serviceEnname;

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.zbank.dao.serviceMapper">
-  <resultMap id="BaseResultMap" type="com.zbank.model.service">
+<mapper namespace="com.zbank.dao.service.ServiceMapper">
+  <resultMap id="BaseResultMap" type="com.zbank.model.Service">
     <id column="service_id" jdbcType="VARCHAR" property="serviceId" />
     <result column="service_enname" jdbcType="VARCHAR" property="serviceEnname" />
     <result column="service_cnname" jdbcType="VARCHAR" property="serviceCnname" />
@@ -25,7 +25,7 @@
     delete from service_info
     where service_id = #{serviceId,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" parameterType="com.zbank.model.service">
+  <insert id="insert" parameterType="com.zbank.model.Service">
     insert into service_info (service_id, service_enname, service_cnname, 
       service_system, service_desc, service_status, 
       remake, service_updatetime)
@@ -33,7 +33,7 @@
       #{serviceSystem,jdbcType=VARCHAR}, #{serviceDesc,jdbcType=VARCHAR}, #{serviceStatus,jdbcType=VARCHAR}, 
       #{remake,jdbcType=VARCHAR}, #{serviceUpdatetime,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.zbank.model.service">
+  <insert id="insertSelective" parameterType="com.zbank.model.Service">
     insert into service_info
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="serviceId != null">
@@ -88,7 +88,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.zbank.model.service">
+  <update id="updateByPrimaryKeySelective" parameterType="com.zbank.model.Service">
     update service_info
     <set>
       <if test="serviceEnname != null">
@@ -115,7 +115,7 @@
     </set>
     where service_id = #{serviceId,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.zbank.model.service">
+  <update id="updateByPrimaryKey" parameterType="com.zbank.model.Service">
     update service_info
     set service_enname = #{serviceEnname,jdbcType=VARCHAR},
       service_cnname = #{serviceCnname,jdbcType=VARCHAR},

@@ -1,6 +1,6 @@
 package com.zbank.model;
 
-public class opensystem {
+public class Opensystem {
     private String openModuleId;
 
     private String openEnvironmentId;

@@ -1,6 +1,6 @@
 package com.zbank.model;
 
-public class environment {
+public class Environment {
     private String environmentId;
 
     private String environmentName;

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.zbank.dao.opensystemMapper">
-  <resultMap id="BaseResultMap" type="com.zbank.model.opensystem">
+<mapper namespace="com.zbank.dao.opensystem.OpensystemMapper">
+  <resultMap id="BaseResultMap" type="com.zbank.model.Opensystem">
     <id column="open_module_id" jdbcType="VARCHAR" property="openModuleId" />
     <result column="open_environment_id" jdbcType="VARCHAR" property="openEnvironmentId" />
     <result column="open_module_name" jdbcType="VARCHAR" property="openModuleName" />
@@ -24,7 +24,7 @@
     delete from opensystem_info
     where open_module_id = #{openModuleId,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" parameterType="com.zbank.model.opensystem">
+  <insert id="insert" parameterType="com.zbank.model.Opensystem">
     insert into opensystem_info (open_module_id, open_environment_id, 
       open_module_name, open_module_url, open_module_server, 
       open_module_acct, open_module_updatetime)
@@ -32,7 +32,7 @@
       #{openModuleName,jdbcType=VARCHAR}, #{openModuleUrl,jdbcType=VARCHAR}, #{openModuleServer,jdbcType=VARCHAR}, 
       #{openModuleAcct,jdbcType=VARCHAR}, #{openModuleUpdatetime,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.zbank.model.opensystem">
+  <insert id="insertSelective" parameterType="com.zbank.model.Opensystem">
     insert into opensystem_info
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="openModuleId != null">
@@ -81,7 +81,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.zbank.model.opensystem">
+  <update id="updateByPrimaryKeySelective" parameterType="com.zbank.model.Opensystem">
     update opensystem_info
     <set>
       <if test="openEnvironmentId != null">
@@ -105,7 +105,7 @@
     </set>
     where open_module_id = #{openModuleId,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.zbank.model.opensystem">
+  <update id="updateByPrimaryKey" parameterType="com.zbank.model.Opensystem">
     update opensystem_info
     set open_environment_id = #{openEnvironmentId,jdbcType=VARCHAR},
       open_module_name = #{openModuleName,jdbcType=VARCHAR},
