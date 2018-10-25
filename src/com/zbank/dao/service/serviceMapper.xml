@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zbank.dao.serviceMapper">
+  <resultMap id="BaseResultMap" type="com.zbank.model.service">
+    <id column="service_id" jdbcType="VARCHAR" property="serviceId" />
+    <result column="service_enname" jdbcType="VARCHAR" property="serviceEnname" />
+    <result column="service_cnname" jdbcType="VARCHAR" property="serviceCnname" />
+    <result column="service_system" jdbcType="VARCHAR" property="serviceSystem" />
+    <result column="service_desc" jdbcType="VARCHAR" property="serviceDesc" />
+    <result column="service_status" jdbcType="VARCHAR" property="serviceStatus" />
+    <result column="remake" jdbcType="VARCHAR" property="remake" />
+    <result column="service_updatetime" jdbcType="VARCHAR" property="serviceUpdatetime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    service_id, service_enname, service_cnname, service_system, service_desc, service_status, 
+    remake, service_updatetime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from service_info
+    where service_id = #{serviceId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from service_info
+    where service_id = #{serviceId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.zbank.model.service">
+    insert into service_info (service_id, service_enname, service_cnname, 
+      service_system, service_desc, service_status, 
+      remake, service_updatetime)
+    values (#{serviceId,jdbcType=VARCHAR}, #{serviceEnname,jdbcType=VARCHAR}, #{serviceCnname,jdbcType=VARCHAR}, 
+      #{serviceSystem,jdbcType=VARCHAR}, #{serviceDesc,jdbcType=VARCHAR}, #{serviceStatus,jdbcType=VARCHAR}, 
+      #{remake,jdbcType=VARCHAR}, #{serviceUpdatetime,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zbank.model.service">
+    insert into service_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="serviceId != null">
+        service_id,
+      </if>
+      <if test="serviceEnname != null">
+        service_enname,
+      </if>
+      <if test="serviceCnname != null">
+        service_cnname,
+      </if>
+      <if test="serviceSystem != null">
+        service_system,
+      </if>
+      <if test="serviceDesc != null">
+        service_desc,
+      </if>
+      <if test="serviceStatus != null">
+        service_status,
+      </if>
+      <if test="remake != null">
+        remake,
+      </if>
+      <if test="serviceUpdatetime != null">
+        service_updatetime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="serviceId != null">
+        #{serviceId,jdbcType=VARCHAR},
+      </if>
+      <if test="serviceEnname != null">
+        #{serviceEnname,jdbcType=VARCHAR},
+      </if>
+      <if test="serviceCnname != null">
+        #{serviceCnname,jdbcType=VARCHAR},
+      </if>
+      <if test="serviceSystem != null">
+        #{serviceSystem,jdbcType=VARCHAR},
+      </if>
+      <if test="serviceDesc != null">
+        #{serviceDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="serviceStatus != null">
+        #{serviceStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="remake != null">
+        #{remake,jdbcType=VARCHAR},
+      </if>
+      <if test="serviceUpdatetime != null">
+        #{serviceUpdatetime,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zbank.model.service">
+    update service_info
+    <set>
+      <if test="serviceEnname != null">
+        service_enname = #{serviceEnname,jdbcType=VARCHAR},
+      </if>
+      <if test="serviceCnname != null">
+        service_cnname = #{serviceCnname,jdbcType=VARCHAR},
+      </if>
+      <if test="serviceSystem != null">
+        service_system = #{serviceSystem,jdbcType=VARCHAR},
+      </if>
+      <if test="serviceDesc != null">
+        service_desc = #{serviceDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="serviceStatus != null">
+        service_status = #{serviceStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="remake != null">
+        remake = #{remake,jdbcType=VARCHAR},
+      </if>
+      <if test="serviceUpdatetime != null">
+        service_updatetime = #{serviceUpdatetime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where service_id = #{serviceId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zbank.model.service">
+    update service_info
+    set service_enname = #{serviceEnname,jdbcType=VARCHAR},
+      service_cnname = #{serviceCnname,jdbcType=VARCHAR},
+      service_system = #{serviceSystem,jdbcType=VARCHAR},
+      service_desc = #{serviceDesc,jdbcType=VARCHAR},
+      service_status = #{serviceStatus,jdbcType=VARCHAR},
+      remake = #{remake,jdbcType=VARCHAR},
+      service_updatetime = #{serviceUpdatetime,jdbcType=VARCHAR}
+    where service_id = #{serviceId,jdbcType=VARCHAR}
+  </update>
+</mapper>

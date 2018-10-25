@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.zbank.dao.System.SystemMapper;
+import com.zbank.dao.system.SystemMapper;
 import com.zbank.model.System;
 import com.zbank.service.SystemService;
 

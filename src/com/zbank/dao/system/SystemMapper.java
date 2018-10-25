@@ -1,4 +1,4 @@
-package com.zbank.dao.System;
+package com.zbank.dao.system;
 
 import java.util.List;
 
