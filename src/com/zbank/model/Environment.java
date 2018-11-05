@@ -30,4 +30,12 @@ public class Environment {
     public void setEnvironmentUrl(String environmentUrl) {
         this.environmentUrl = environmentUrl == null ? null : environmentUrl.trim();
     }
+
+	@Override
+	public String toString() {
+		return "{\"environmentId\":\"" + environmentId + "\",\"environmentName\":\"" + environmentName
+				+ "\",\"environmentUrl\":\"" + environmentUrl + "\"}";
+	}
+    
+    
 }

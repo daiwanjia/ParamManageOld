@@ -13,9 +13,15 @@ public class System {
     private String absTwo;
 
 
+    public String getSystemEnname(){
+    	return systemEnname;
+    }
+    
     public void setSystemEnname(String systemEnname) {
         this.systemEnname = systemEnname == null ? null : systemEnname.trim();
     }
+    
+    
 
     public String getSystemCnname() {
         return systemCnname;

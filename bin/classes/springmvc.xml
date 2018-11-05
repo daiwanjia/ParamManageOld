@@ -12,7 +12,12 @@
 	http://www.springframework.org/schema/aop
 	http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
 	">
-	<!-- 注解支持 -->
+	
+	<!-- 注解映射器 -->
+	<!-- <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping"></bean> -->
+	<!-- 注解适配器 -->
+	<!-- <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter"></bean> -->
+	<!-- 注解支持   使用mvc:annotation-driven可代替上面的注解映射器和注解适配器-->
 	<mvc:annotation-driven>
 		<!-- <mvc:message-converters register-defaults="true">
 			配置Fastjson支持
@@ -47,7 +52,7 @@
 	<mvc:resources location="/images/" mapping="/images/**" />
 	<mvc:resources location="/html/" mapping="/html/**" />
 	<mvc:resources location="/frame/" mapping="/frame/**" />
-	<mvc:resources location="/demo/" mapping="/demo/**" />
+	<mvc:resources location="/children/" mapping="/children/**" />
 	<mvc:resources location="/fonts/" mapping="/fonts/**" />
 	<mvc:resources location="/json/" mapping="/json/**" />
 

@@ -17,7 +17,18 @@ public class Service {
 
     private String serviceUpdatetime;
 
-    public String getServiceId() {
+    private System system;
+   
+    
+    public System getSystem() {
+		return system;
+	}
+
+	public void setSystem(System system) {
+		this.system = system;
+	}
+
+	public String getServiceId() {
         return serviceId;
     }
 
@@ -80,4 +91,14 @@ public class Service {
     public void setServiceUpdatetime(String serviceUpdatetime) {
         this.serviceUpdatetime = serviceUpdatetime == null ? null : serviceUpdatetime.trim();
     }
+
+	@Override
+	public String toString() {
+		return "{\"serviceId\":\"" + serviceId + "\",\"serviceEnname\":\"" + serviceEnname + "\",\"serviceCnname\":\""
+				+ serviceCnname + "\",\"serviceSystem\":\"" + serviceSystem + "\",\"serviceDesc\":\"" + serviceDesc
+				+ "\",\"serviceStatus\":\"" + serviceStatus + "\",\"remake\":\"" + remake
+				+ "\",\"serviceUpdatetime\":\"" + serviceUpdatetime + "\",\"systemCnname\":\"" + system.getSystemCnname() + "\"}";
+	}
+ 
+    
 }

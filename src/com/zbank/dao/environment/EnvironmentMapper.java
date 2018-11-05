@@ -1,5 +1,7 @@
 package com.zbank.dao.environment;
 
+import java.util.List;
+
 import com.zbank.model.Environment;
 
 public interface EnvironmentMapper {
@@ -14,4 +16,6 @@ public interface EnvironmentMapper {
     int updateByPrimaryKeySelective(Environment record);
 
     int updateByPrimaryKey(Environment record);
+    
+    List<Environment> queryEnvironmentInfo();
 }

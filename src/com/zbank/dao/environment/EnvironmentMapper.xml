@@ -68,4 +68,10 @@
       environment_url = #{environmentUrl,jdbcType=VARCHAR}
     where environment_id = #{environmentId,jdbcType=VARCHAR}
   </update>
+  <!-- select all -->
+   <select id="queryEnvironmentInfo" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from environment_info
+  </select>
 </mapper>

@@ -19,7 +19,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.zbank.model.System;
 import com.zbank.service.SystemService;
 
-@Controller(value="systemController")
+@Controller
 @RequestMapping(value="/system")
 public class SystemController {
 	@Autowired
