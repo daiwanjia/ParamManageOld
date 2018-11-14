@@ -8,7 +8,7 @@ $(document).ready(function() {
 		} else {
 			$.ajax({
 				type: "post",
-				url: "/ParamManage/user/login",
+				url: "/user/login",
 				async: false,
 				dataType:"json",
 				scriptCharset: 'utf-8',

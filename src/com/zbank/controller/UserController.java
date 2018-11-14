@@ -54,7 +54,7 @@ public class UserController {
 	@RequestMapping(value="/logout")
 	public void logout(HttpServletRequest request,HttpServletResponse response) throws IOException{
 		request.getSession().removeAttribute("username");
-		response.sendRedirect("/ParamManage/html/login.html");		
+		response.sendRedirect("/html/login.html");		
 	}
 	
 	@ExceptionHandler

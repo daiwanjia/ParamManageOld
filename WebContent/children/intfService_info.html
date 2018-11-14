@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<title>系统参数管理</title>
+		<link rel="stylesheet" href="../frame/layui/css/layui.css">
+		<!--<link rel="stylesheet" href="http://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css">-->
+		<link rel="stylesheet" href="../frame/static/css/style.css">
+		<link rel="icon" href="../frame/static/image/code.png">
+		<script src="../js/jquery.min.js"></script>
+		<script src="../js/json2.js"></script>
+	</head>
+
+	<body class="body">
+
+		<!-- 工具集 -->
+		<div class="my-btn-box">
+			<span class="fl">     		
+       			<form class="layui-form">
+	       			<a class="layui-btn btn-add btn-default" id="serviceAdd">新增服务</a>
+	       			<a class="layui-btn btn-add btn-default" id="btn-refresh"><i class="layui-icon">&#x1002;</i></a>
+	       			<div class="layui-input-inline" style="margin-left: 33px;">
+						<input type="text" placeholder="请输入服务英文名称" class="layui-input" id="queryServiceEnname">
+					</div>
+					<div class="layui-input-inline" style="margin-right: 12px;margin-left: 10px;">
+						<input type="text" placeholder="请输入服务中文名称" class="layui-input" id="queryServiceCnname">
+					</div>
+	   				<div class="layui-input-inline">
+	      				<select name="serviceStatus" lay-verify="required" id="queryServiceStatus">
+	        				<option value="">请选择服务状态</option>
+	        				<option value="0">可用</option>
+	        				<option value="1">不可用</option>
+				      	</select>
+				    </div>
+					<div class="layui-input-inline" style="margin-right: 12px;margin-left: 10px;">
+						<!--<select lay-verify="required" id="queryServiceSystem">-->
+					</div>				
+					<button class="layui-btn mgl-20" id="query">查询</button>
+					<button class="layui-btn mgl-20" style="margin-left: 20px;" id="resetQuery">清空</button>
+				</form>
+    		</span>
+		</div>
+		<!--编辑框-->
+		<div class="layui-row" id="updateDiv" style="display:none;">
+		    <div class="layui-col-md10" style="margin-left: 10px;margin-top: 10px;">
+		        <form class="layui-form layui-form-pane" lay-filter="serviceFormFilter">
+		        	<div class="layui-form-item" hidden="hidden">
+		                <label class="layui-form-label" style="width: 130px">服务唯一标识：</label>
+		                <div class="layui-input-inline">
+		                    <input type="text" id="serviceId" name="serviceId"  class="layui-input" autocomplete="off">
+		                </div>
+		            </div>
+		            <div class="layui-form-item">
+		                <label class="layui-form-label" style="width: 130px">服务英文名称：</label>
+		                <div class="layui-input-inline">
+		                    <input type="text" id="serviceEnname" name="serviceEnname"  class="layui-input" autocomplete="off">
+		                </div>
+		            </div>
+		            <div class="layui-form-item">
+		                 <label class="layui-form-label" style="width: 130px">服务中文名称：</label>
+		                <div class="layui-input-inline">
+		                	<input type="text" id="serviceCnname" name="serviceCnname" class="layui-input" autocomplete="off">
+		                </div>
+		            </div>
+		            <div class="layui-form-item">
+		                <label class="layui-form-label" style="width: 130px">所属系统：</label>
+		                <div class="layui-input-inline">
+		                	<input type="text" id="serviceSystem" name="serviceSystem" class="layui-input" autocomplete="off">
+		                    <!--<select name="serviceSystem" lay-verify="required" id="serviceSystem">-->
+				      	</select>
+		                </div>
+		            </div>
+		            <div class="layui-form-item">
+		                <label class="layui-form-label" style="width: 130px">服务描述：</label>
+		                <div class="layui-input-inline">
+		                    <input type="text" id="serviceDesc" name="serviceDesc" class="layui-input" autocomplete="off">
+		                </div>
+		            </div>
+		            <div class="layui-form-item">
+		                <div class="layui-input-block">
+		                    <input type="button" class="layui-btn layui-btn-normal" style="" value="提交" onclick="updateService();"/>
+		                    <button type="reset" hidden="hidden" id="resetbutton"/>
+		                </div>
+		            </div>
+		        </form>
+		    </div>
+		</div>
+		<!--新增框-->
+		<div class="layui-row" id="insertDiv" style="display:none;">
+		    <div class="layui-col-md10" style="margin-left: 10px;margin-top: 10px;">
+		        <form class="layui-form layui-form-pane">
+		            <div class="layui-form-item">
+		                <label class="layui-form-label" style="width: 130px">服务英文名称：</label>
+		                <div class="layui-input-inline">
+		                    <input type="text" id="serviceEnname1" name="serviceEnname"  class="layui-input" autocomplete="off">
+		                </div>
+		            </div>
+		            <div class="layui-form-item">
+		                 <label class="layui-form-label" style="width: 130px">服务中文名称：</label>
+		                <div class="layui-input-inline">
+		                	<input type="text" id="serviceCnname1" name="serviceCnname" class="layui-input" autocomplete="off">
+		                </div>
+		            </div>
+		            <div class="layui-form-item">
+		                <label class="layui-form-label" style="width: 130px">所属系统：</label>
+		                <div class="layui-input-inline">
+		                    <select name="serviceSystem" lay-verify="required" id="serviceSystem1">
+				      	</select>
+		                </div>
+		            </div>
+		            <div class="layui-form-item">
+		                <label class="layui-form-label" style="width: 130px">服务描述：</label>
+		                <div class="layui-input-inline">
+		                    <input type="text" id="serviceDesc1" name="serviceDesc" class="layui-input" autocomplete="off">
+		                </div>
+		            </div>
+		            <div class="layui-form-item">
+		                <div class="layui-input-block">
+		                    <input type="button" class="layui-btn layui-btn-normal" style="" value="提交" onclick="insertService();"/>
+		                    <button type="reset" hidden="hidden" id="resetbutton1"/>
+		                </div>
+		            </div>
+		        </form>
+		    </div>
+		</div>
+		<!-- 表格 -->
+		<table id="dateTable" lay-filter="dateTable" ></table>
+		
+		<script type="text/javascript" src="../frame/layui/layui.js"></script>
+		<script type="text/javascript" src="../js/index.js"></script>
+		<!-- 表格操作按钮集 -->
+		<script type="text/html" id="barOption">
+			<a class="layui-btn layui-btn-xs"  lay-event="edit">编辑</a>
+			<a class="layui-btn layui-btn-danger layui-btn-xs"  lay-event="del">删除</a>
+		</script>
+		<!--服务状态码转换-->
+		<script type="text/html" id="statusConvert">
+			{{# if(d.serviceStatus=='0') {}}
+			 <span style="color: #00FF00;">可用</span>
+			{{# }else if(d.serviceStatus=='1') {}}
+			 <span style="color: #FF0000;">不可用</span>
+			{{#  } }}
+		</script>
+		<script type="text/javascript">
+			// layui方法
+			var table;
+			var tableIns;
+			var layer;
+			var form;
+			layui.use(['table', 'form', 'layer', 'vip_table'], function() {
+
+				// 操作对象
+				 
+				var	vipTable = layui.vip_table,
+					$ = layui.jquery;
+				layer = layui.layer;
+				form = layui.form;
+				table = layui.table;
+				// 表格渲染
+					tableIns = table.render({
+					elem: '#dateTable' ,//指定原始表格元素选择器（推荐id选择器）
+					height: vipTable.getFullHeight() ,//容器高度					
+					cols: [
+						[ //标题栏
+							{type:'checkbox',fixed:'left'},
+							/*{checkbox: true,sort: true,fixed: true,space: true}, */
+							{field: 'serviceEnname',title: '服务英文名称',width: 150,sort:true}, 
+							{field: 'serviceCnname',title: '服务中文名称',width: 150, sort: true}, 
+							{field: 'serviceSystem',title: '所属系统简称',width: 150, sort: true}, 
+							{field: 'systemCnname',title: '所属系统名称',width: 150, sort: true}, 
+							{field: 'serviceStatus',title: '服务状态',width: 150, sort: true,templet:'#statusConvert'}, 
+							{field: 'serviceDesc',title: '服务描述',width: 150}, 
+							{field: 'serviceUpdatetime',title: '更新时间',width: 200, sort: true}, 
+							{field: 'serviceId',title: '接口唯一Id',width: 200},
+							{fixed: 'right',title: '操作',width: 150,align: 'center',toolbar: '#barOption'} //这里的toolbar值是模板元素的选择器
+						]
+					],
+					id: 'dataCheck',
+					url: '/intfService/serviceInfo',
+					method: 'post',
+					page: true,
+					limits: [10, 20, 30, 50,100],
+					limit: 10 , //默认采用10        				
+					loading: false,
+					success: function(res, curr, count) {
+						//如果是异步请求数据方式，res即为你接口返回的信息。
+						//如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
+						//console.log(res);
+
+						//得到当前页码
+						//console.log(curr);
+
+						//得到数据总量
+						//console.log(count);
+					}
+				});
+
+				// 获取选中行
+				table.on('checkbox(dataCheck)', function(obj) {
+					layer.msg('123');
+					console.log(obj.checked); //当前是否选中状态
+					console.log(obj.data); //选中行的相关数据
+					console.log(obj.type); //如果触发的是全选，则为：all，如果触发的是单选，则为：one
+				});
+
+				// 刷新
+				$('#btn-refresh').on('click', function() {
+					//清空搜素框
+					$('#querySystemEnname').val('');
+					$('#querySystemCnname').val('');
+					//初始化表格
+					table.reload('dataCheck');
+				});
+				
+				//关键词查询:serviceEnname,serviceCnname,serviceStatus,serviceSystem
+				$('#query').on('click',function(){
+					var serviceEnname=$('#queryServiceEnname').val();
+					var serviceCnname=$('#queryServiceCnname').val();
+					var serviceStatus=$('#queryServiceStatus').val();
+					var serviceSystem=$('#queryServiceSystem').val();
+					if(serviceEnname||serviceCnname||serviceStatus||serviceSystem){
+						var index = layer.msg('查询中，请稍候...',{icon: 16,time:false,shade:0});
+						tableIns.reload({
+						where:{
+							"serviceEnname":serviceEnname,
+							"serviceCnname":serviceCnname,
+							"serviceStatus":serviceStatus,
+							"serviceSystem":serviceSystem
+						}
+					});
+						layer.close(index);
+					}
+				});
+				
+				//新增系统layer
+				$("#serviceAdd").click(function() {
+					layer.open({
+						type: 1,
+						title:'新增系统',
+						skin: 'layui-layer-lan', //加上边框
+						area: ['500px', '400px'], //宽高
+						content:$("#insertDiv")
+					});
+				});
+			
+				//监听行工具事件 edit or delete 
+			  	table.on('tool(dateTable)', function(obj){
+				    var data = obj.data;
+				    console.log(data)
+				    if(obj.event === 'del'){
+					    layer.confirm('真的删除行么', function(index){
+					      	$.ajax({
+					      		type:"post",
+					      		url:"/intfService/delService",
+					      		async:true,
+					      		dataType:"json",
+					      		data:{
+					      			"serviceId":data.serviceId
+					      		},
+					      		success:function(date){
+					      			layer.close(index);
+					      			layer.msg(date.msg);
+					      			tableIns.reload();
+					      		},
+					      		error:function(date){
+					      			layer.close(index);
+					      			layer.alert(date.msg);
+					      			tableIns.reload();
+					      		}
+					      	});			        
+					    });
+				    } else if(obj.event === 'edit'){//edit layer
+				      	layer.open({
+				            type:1,
+				            title:"修改接口信息",
+				            skin: 'layui-layer-lan',
+				            area: ['500px', '500px'],
+				            content:$("#updateDiv")
+		       			 });
+		       			 setFormValue(data);
+				    }
+	  			});
+	  			//动态向表单赋值
+	  			function setFormValue(data){
+	  				var formData={
+	  					serviceId:data.serviceId,
+	  					serviceEnname:data.serviceEnname,
+	  					serviceCnname:data.serviceCnname,
+	  					serviceSystem:data.serviceSystem,
+	  					serviceDesc:data.serviceDesc
+	  				};
+	  				form.val("serviceFormFilter",formData);
+					form.render(null,'serviceFormFilter');
+			  	}		
+			});
+			//提交接口服务变动
+			function updateService(){
+				var serviceId=$('#serviceId').val();
+				var serviceEnname=$('#serviceEnname').val();
+				var serviceCnname=$('#serviceCnname').val();
+				var serviceSystem=$('#serviceSystem').val();
+				var serviceDesc=$('#serviceDesc').val();
+				var param={
+						"serviceId":serviceId,
+						"serviceEnname":serviceEnname,
+						"serviceCnname":serviceCnname,
+						"serviceSystem":serviceSystem,
+						"serviceDesc":serviceDesc
+					};
+				$.ajax({
+					type: "post",
+					url: "/intfService/updateService",
+					async: true,
+					contentType:"application/json; charset=UTF-8",
+					data:JSON.stringify(param),
+					success: function(date) {					
+						tableIns.reload();
+						layer.closeAll();
+						layer.msg(date.msg);
+						$('#resetbutton').click();
+					},
+					error: function(date) {						
+						tableIns.reload();
+						layer.closeAll();
+						layer.alert(date.msg);
+						$('#resetbutton').click();
+					}
+				});
+			}
+			//添加一个服务接口提交
+			function insertService(){
+				var serviceEnname=$('#serviceEnname1').val();
+				var serviceCnname=$('#serviceCnname1').val();
+				var serviceSystem=$('#serviceSystem1').val();
+				var serviceDesc=$('#serviceDesc1').val();
+				var param={
+						"serviceEnname":serviceEnname,
+						"serviceCnname":serviceCnname,
+						"serviceSystem":serviceSystem,
+						"serviceDesc":serviceDesc
+					};
+				$.ajax({
+					type: "post",
+					url: "/intfService/addService",
+					async: true,
+					contentType:"application/json; charset=UTF-8",
+					data:JSON.stringify(param),
+					success: function(date) {
+						tableIns.reload();
+						layer.closeAll();
+						layer.msg(date.msg);
+						$('#resetbutton1').click();
+					},
+					error: function(date) {						
+						tableIns.reload();
+						layer.closeAll();
+						layer.msg(date.msg);
+						$('#resetbutton1').click();
+					}
+				});
+			}
+			//清空搜索框
+			$('#resetQuery').click(function(){
+				$('#querySystemEnname').val('');
+				$('#querySystemCnname').val('');
+			})
+			
+			//页面加载完毕时执行
+			$(document).ready(function(){
+				//获取可选择的系统信息
+				$.ajax({
+					type:"post",
+					url:"/provideSystem/allSystem",
+					async:true,
+					dataType:"json",
+					success:function(data){
+						console.log(data);
+						$('#serviceSystem1').empty();
+						 $("#serviceSystem1").append("<option value=''>请选择所属系统</option>");
+					        for(var i=0;i<data.length;i++){
+					        	$("#serviceSystem1").append('<option value='+data[i].systemEnname+'>'+data[i].systemCnname+'('+data[i].systemEnname+')'+'</option>');
+					        }
+					    $('#queryServiceSystem').empty();
+						 $("#queryServiceSystem").append("<option value=''>请选择所属系统</option>");
+					        for(var i=0;i<data.length;i++){
+					        	$("#queryServiceSystem").append('<option value='+data[i].systemEnname+'>'+data[i].systemCnname+'('+data[i].systemEnname+')'+'</option>');
+					        }    
+					}
+				});
+			});
+		</script>		
+		
+	</body>
+
+</html>
