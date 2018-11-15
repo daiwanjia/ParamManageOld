@@ -34,7 +34,7 @@
     		</span>
 		</div>
 		<div class="layui-row" id="updateDiv" style="display:none;">
-		    <div class="layui-col-md10" style="margin-left: 10px;margin-top: 10px;">
+		    <div class="layui-col-md10" style="margin-left: 50px;margin-top: 20px;text-align: center;">
 		        <form class="layui-form layui-form-pane" lay-filter="systemFormFilter">
 		            <div class="layui-form-item">
 		                <label class="layui-form-label" style="width: 130px">系统英文名称：</label>
@@ -67,8 +67,8 @@
 		                </div>
 		            </div>
 		            <div class="layui-form-item">
-		                <div class="layui-input-block">
-		                    <input type="button" class="layui-btn layui-btn-normal" value="提交" onclick="updateform();"/>
+		                <div class="layui-input-block" style="margin-left:auto;margin-right: auto;text-align: center;">
+		                    <input type="button" class="layui-btn btn-default" value="提交" onclick="updateform();"/>
 		                    <button type="reset" hidden="hidden" id="resetbutton"/>
 		                </div>
 		            </div>
@@ -76,7 +76,7 @@
 		    </div>
 		</div>
 		<div class="layui-row" id="insertDiv" style="display:none;">
-		    <div class="layui-col-md10" style="margin-left: 10px;margin-top: 10px;">
+		    <div class="layui-col-md10" style="margin-left: 50px;margin-top: 20px;">
 		        <form class="layui-form layui-form-pane">
 		            <div class="layui-form-item">
 		                <label class="layui-form-label" style="width: 130px">系统英文名称：</label>
@@ -109,8 +109,8 @@
 		                </div>
 		            </div>
 		            <div class="layui-form-item">
-		                <div class="layui-input-block">
-		                    <input type="button" class="layui-btn layui-btn-normal" value="提交" onclick="insertSystem();"/>
+		                <div class="layui-input-block" style="margin-left:auto;margin-right: auto;text-align: center;"">
+		                    <input type="button" class="layui-btn btn-default" value="提交" onclick="insertSystem();"/>
 		                    <button type="reset" hidden="hidden" id="resetbutton1"/>
 		                </div>
 		            </div>
@@ -165,7 +165,7 @@
 					limits: [10, 20, 30, 50,100],
 					limit: 10 , //默认采用10        				
 					loading: false,
-					success: function(res, curr, count) {
+					done: function(res, curr, count) {
 						//如果是异步请求数据方式，res即为你接口返回的信息。
 						//如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
 						//console.log(res);
@@ -199,8 +199,7 @@
 				$('#query').on('click',function(){
 					var systemEnname=$('#querySystemEnname').val();
 					var systemCnname=$('#querySystemCnname').val();
-					if(systemEnname||systemCnname){
-						var index = layer.msg('查询中，请稍候...',{icon: 16,time:false,shade:0});
+					var index = layer.msg('查询中，请稍候...',{icon: 16,time:false,shade:0});
 						tableIns.reload({
 						where:{
 							"systemEnname":systemEnname,
@@ -208,14 +207,14 @@
 						}
 					});
 						layer.close(index);
-					}
+					
 				});
 				
 				$("#systemAdd").click(function() {
 					layer.open({
 						type: 1,
 						title:'新增系统',
-						skin: 'layui-layer-lan', //加上边框
+						skin: 'layui-layer-molv', //加上边框
 						area: ['500px', '500px'], //宽高
 						content:$("#insertDiv")
 					});
@@ -251,7 +250,7 @@
 				      	layer.open({
 				            type:1,
 				            title:"修改系统信息",
-				            skin: 'layui-layer-lan',
+				            skin: 'layui-layer-molv',
 				            area: ['500px', '500px'],
 				            content:$("#updateDiv")
 		       			 });
